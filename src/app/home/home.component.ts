@@ -61,7 +61,7 @@ export class HomeComponent implements OnInit {
         .pipe(
           flatMap(actions => actions.map(a => a.payload.doc.data())),
           bufferCount(displayIntervalSize),
-          concatMap(val => of(val).pipe(delay(1 * 1000)))
+          concatMap(val => of(val).pipe(delay(displayIntervalSec * 1000)))
         )
         .subscribe(p => {
           this.posts.push(...p);
