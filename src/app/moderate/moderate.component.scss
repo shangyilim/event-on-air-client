@@ -1,0 +1,78 @@
+.loginBtn {
+    color: #757575
+}
+
+.gicon {
+  height: 18px;
+  width: 18px;
+  margin-right: 12px;
+}
+
+.loginContainer {
+    width: calc(100vw);
+    min-height: calc(100vh);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.container {
+    margin: 20px;
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
+    .content-container{
+        max-width: 768px;
+        display:flex;
+        flex-direction: column;
+        align-self: center;
+    }
+}
+.tweet-card {
+    max-width: 200px;
+    margin: 5px;
+    display: flex;
+    flex-direction:column;
+    box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
+
+    header {
+        display:flex;
+        align-items:center;
+        margin: 10px;
+        .postTitle {
+            margin-left: 10px;
+        }
+    }
+    .postPic {
+        background-size: cover;
+        height: 200px;
+        width: 200px;
+        background-repeat: no-repeat;
+    }
+    .postText {
+        font-size: 0.688em;
+        margin: 10px;
+        flex-grow:1;
+    }
+    footer {
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+
+        button {
+            align-self: flex-end;
+        }
+    }
+}
+.cards {
+    display: flex;
+    flex-wrap:wrap;
+    justify-content: center;
+}
+.postTitle {
+    font-size: 8pt;
+}
+.avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+}

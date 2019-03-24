@@ -1,0 +1,74 @@
+
+<div *ngIf="user && searchConfig; else showLogin"  class="container">
+  <div class="content-container">
+    <h3>Connect Instagram Business Profile</h3>
+    <div>Connect to Instagram to enable pulling feeds from Instagram</div>
+    <app-fb-login></app-fb-login>
+      <h3>Moderate</h3>
+      <mat-slide-toggle [checked]="searchConfig.autoApprove" (toggleChange)="updateAutoApprove()" >
+        Auto Approve
+      </mat-slide-toggle>
+      <div *ngIf="searchConfig.autoApprove && posts">
+          Posts before auto approval still require manual approval.
+        </div>
+    <div class="cards">
+      
+      <div class="tweet-card" *ngFor="let post of posts">
+        <header>
+          <div
+            [ngStyle]="{
+              'background-image':
+                'url(' + post.profilePic + ')'
+            }"
+            class="avatar"
+          ></div>
+          <span class="postTitle">{{
+            post.name ? post.name + "(@" + post.username + ")" : ''
+          }}</span>
+        </header>
+        <div
+          [ngStyle]="{
+            'background-image': 'url(' + post.photo + ')'
+          }"
+          class="postPic"
+        ></div>
+        <section class="postText">
+          {{ post.text }}
+        </section>
+        <footer>
+          <button  mat-button color="warn" (click)="removePost(post)">REMOVE</button>
+          <button mat-button color="primary" (click)="setApproval(post)">APPROVE</button>
+        </footer>
+      </div>
+    </div>
+    <!-- <h2>Client Configuration</h2>
+      <mat-form-field> 
+          <input matInput placeholder="Background color" value="Sushi">
+      </mat-form-field>
+      <mat-form-field> 
+          <input matInput placeholder="Lanes" value="Sushi">
+      </mat-form-field>
+      <mat-form-field> 
+          <input matInput placeholder="Title" value="Sushi">
+      </mat-form-field>
+      <mat-form-field> 
+          <input matInput placeholder="Subtitle" value="Sushi">
+      </mat-form-field>
+        <mat-form-field> 
+          <input matInput placeholder="hashtags" value="Sushi">
+        </mat-form-field> -->
+  </div>
+</div>
+<ng-template #showLogin>
+    <div class="loginContainer" >
+        <button mat-raised-button class="loginBtn" (click)="login()">
+          <img
+            class="gicon"
+            alt=""
+            src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+          />
+          Sign in with Google
+        </button>
+      </div>
+      
+</ng-template>

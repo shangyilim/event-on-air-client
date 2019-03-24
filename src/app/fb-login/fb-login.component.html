@@ -1,0 +1,9 @@
+<button *ngIf="!isLoggedIn; else loggedIn" mat-raised-button (click)="login()">
+  Login with Facebook
+</button>
+
+<ng-template #loggedIn>
+  <button mat-raised-button (click)="logout()">Logout from Facebook</button>
+</ng-template>
+
+
