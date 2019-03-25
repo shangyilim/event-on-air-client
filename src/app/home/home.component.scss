@@ -1,5 +1,5 @@
 .banner {
-  width: calc(100vw);
+  width: 100vw;
   height: calc(100vh / 5);
   display: flex;
   flex-direction: column;
@@ -30,9 +30,9 @@
 
 .masonry {
   padding: 1em;
-  max-width: calc(100vw);
-  width: calc(100vw) !important;
-  min-height: calc(100vh);
+  max-width: 100vw;
+  width: 100vw !important;
+  min-height: 100vh;
 }
 
 .masonry-item {
@@ -46,14 +46,14 @@
     padding: 0.6em;
     background-color: #fff;
     word-wrap: break-word;
-    font-size: 0.75em;
+    font-size: 1.2vw;
     max-height: 100px;
     overflow: hidden;
   }
 }
 .user {
   padding: 0.6rem;
-  font-size: 0.65em;
+  font-size: 1vw;
   display: flex;
   align-items: center;
 }
