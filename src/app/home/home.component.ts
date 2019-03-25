@@ -75,8 +75,11 @@ export class HomeComponent implements OnInit {
               bufferCount(displayIntervalSize),
               concatMap(val => of(val).pipe(delay(displayIntervalSec * 1000)))
             )
-            .subscribe(p => {
-              this.posts.push(...p);
+            .subscribe(posts => {
+              const newPosts = posts.filter(
+                (p: any) => !this.posts.find(existing => p.id === existing.id)
+              );
+              this.posts.push(...newPosts);
             });
         });
     });
