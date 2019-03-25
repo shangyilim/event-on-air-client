@@ -54,17 +54,30 @@ export class HomeComponent implements OnInit {
 
       this.clientConfig = dbClientConfig;
 
-      const { displayIntervalSec = 10, displayIntervalSize = 5 } = this.clientConfig;
       this.db
-        .collection("posts", ref => ref.orderBy("timestamp", "desc"))
-        .stateChanges(["added"])
-        .pipe(
-          flatMap(actions => actions.map(a => a.payload.doc.data())),
-          bufferCount(displayIntervalSize),
-          concatMap(val => of(val).pipe(delay(displayIntervalSec * 1000)))
-        )
-        .subscribe(p => {
-          this.posts.push(...p);
+        .collection("posts", ref => ref.orderBy("timestamp", "desc").limit(10))
+        .get()
+        .toPromise()
+        .then(snapshot => {
+          const data = snapshot.docs.map(d => d.data());
+          this.posts.push(...data);
+        })
+        .then(() => {
+          const {
+            displayIntervalSec = 10,
+            displayIntervalSize = 5
+          } = this.clientConfig;
+          this.db
+            .collection("posts", ref => ref.orderBy("timestamp", "desc"))
+            .stateChanges(["added"])
+            .pipe(
+              flatMap(actions => actions.map(a => a.payload.doc.data())),
+              bufferCount(displayIntervalSize),
+              concatMap(val => of(val).pipe(delay(displayIntervalSec * 1000)))
+            )
+            .subscribe(p => {
+              this.posts.push(...p);
+            });
         });
     });
   }
