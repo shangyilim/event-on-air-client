@@ -1,22 +1,22 @@
 .banner {
   width: calc(100vw);
-  height: calc(100vh / 6);
+  height: calc(100vh / 5);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-size: cover;
+  background-size: contain!important;
+
 
   .title {
     font-size: 3em;
     font-weight: bold;
   }
   .subtitle {
-    font-size: 2em;
+    font-size: 1.6em;
   }
 }
 .bannerText {
-  background-color: #fff;
   height: 100%;
   padding: 1em;
   text-align: center;
