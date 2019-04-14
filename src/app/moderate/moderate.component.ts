@@ -15,7 +15,7 @@ import { isUndefined } from 'util';
 export class ModerateComponent implements OnInit {
   posts = [];
   searchConfig;
-  user = { };
+  user = {} as any;
   constructor(public afAuth: AngularFireAuth, public db: AngularFirestore) {}
 
   ngOnInit() {
