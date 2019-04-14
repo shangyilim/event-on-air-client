@@ -40,7 +40,7 @@ export const environment = {
 ```
 4. Start the project locally via `npm run start`
 5. Navigate to http://localhost:4200/moderate 
-6. Login with your Google Account as specified by 
+6. Login with your Google Account as specified in the email you have entered in Firestore `admin` collection
 
 
 
