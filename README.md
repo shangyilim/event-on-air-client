@@ -19,6 +19,7 @@ Automatically pull twitter/instagram feeds with your event hashtag
 1. A Firebase project. Sign into Firebase using your Google account, and create a new project in the Firebase console [here](https://console.firebase.google.com/)
 2. **Have completed the setup for backend.** If you have not done so, please follow the  Serverless on Firebase Cloud Functions [here](https://github.com/shangyilim/event-on-air)
 
+
 # Setting up the client
 1. Clone this project
 2. Install dependencies via npm or yarn
@@ -40,7 +41,28 @@ export const environment = {
 ```
 4. Start the project locally via `npm run start`
 5. Navigate to http://localhost:4200/moderate 
-6. Login with your Google Account as specified in the email you have entered in Firestore `admin` collection
+6. Login with your Google Account as specified in the email you have entered in Firestore `admin` collection.
+7. If you have setup your admin user correctly in [this guide](https://github.com/shangyilim/event-on-air), you should see the following screen:
+![moderate screen](https://res.cloudinary.com/shangyilim/image/upload/v1555250789/moderate.png)
+8. If you have facebook logged in, please log out and log in again.
+9. Check Firestore to ensure the `userAccessToken` is automatically filled in like the screen below:
+![fb config screen](https://res.cloudinary.com/shangyilim/image/upload/v1555251164/fbconfig.png)
+
+# Deploy the client
+1. Set Firebase project
+```
+firebase use project-id
+```
+2. Build for production
+```
+npm run build
+```
+3. Deploy to Firebase Hosting
+```
+firebase deploy
+```
+
+
 
 
 
