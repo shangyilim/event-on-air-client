@@ -11,7 +11,8 @@ export const environment = {
     projectId: "projectId",
     storageBucket: "storageBucket",
     messagingSenderId: "messagingSenderId"
-  }
+  },
+  facebookAppId: "facebookAppId"
 };
 
 /*
