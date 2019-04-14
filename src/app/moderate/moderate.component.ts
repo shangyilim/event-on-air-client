@@ -15,15 +15,15 @@ import { isUndefined } from 'util';
 export class ModerateComponent implements OnInit {
   posts = [];
   searchConfig;
-  user;
+  user = { };
   constructor(public afAuth: AngularFireAuth, public db: AngularFirestore) {}
 
   ngOnInit() {
 
-    
-    this.afAuth.user.subscribe(user=>{
+    this.afAuth.authState.subscribe(user =>{
+      console.log('user', user);
       this.user = user;
-    });
+    })
 
     const tweets$ = collection(this.db.firestore
       .collection("tweets")

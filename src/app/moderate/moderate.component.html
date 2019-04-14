@@ -1,5 +1,5 @@
 
-<div *ngIf="user && searchConfig; else showLogin"  class="container">
+<div *ngIf="user && user.email && searchConfig; else showLogin"  class="container">
   <div class="content-container">
     <h3>Connect Instagram Business Profile</h3>
     <div>Connect to Instagram to enable pulling feeds from Instagram</div>
@@ -61,7 +61,10 @@
 </div>
 <ng-template #showLogin>
     <div class="loginContainer" >
-        <button mat-raised-button class="loginBtn" (click)="login()">
+        <mat-progress-spinner *ngIf="user && user.email" 
+        [mode]="'indeterminate'">
+    </mat-progress-spinner>
+        <button mat-raised-button class="loginBtn" (click)="login()" *ngIf="!user">
           <img
             class="gicon"
             alt=""

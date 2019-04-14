@@ -16,7 +16,8 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatCheckboxModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
+  MatProgressSpinnerModule,
 } from "@angular/material";
 import { FbLoginComponent } from './fb-login/fb-login.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -36,6 +37,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatFormFieldModule,
     MatCheckboxModule,
     MatSlideToggleModule,
+    MatProgressSpinnerModule,
     HttpClientModule,
   ],
   providers: [],

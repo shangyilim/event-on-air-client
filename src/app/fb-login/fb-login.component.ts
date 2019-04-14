@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, NgZone, OnDestroy } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { AngularFirestore } from "@angular/fire/firestore";
-
+import { environment } from '../../environments/environment';
 declare var FB: any;
 @Component({
   selector: "app-fb-login",
@@ -19,7 +19,7 @@ export class FbLoginComponent implements OnInit {
   ngOnInit() {
     (window as any).fbAsyncInit = function() {
       FB.init({
-        appId: "660226181061060",
+        appId: environment.facebookAppId,
         cookie: true,
         xfbml: true,
         version: "v3.2"
@@ -62,7 +62,7 @@ export class FbLoginComponent implements OnInit {
     FB.login(response => {
       if (response.authResponse) {
         console.log('response.authRespone', response.authResponse);
-       this.loggedInEmitter.emit(response.authRespone.access_token);
+       this.loggedInEmitter.emit(response.authResponse.accessToken);
   
       } else {
         console.log("User login failed");
@@ -71,6 +71,7 @@ export class FbLoginComponent implements OnInit {
   }
   logout() {
     FB.logout();
+    this.isLoggedIn = false;
   }
 
   getFacebookPages(){
