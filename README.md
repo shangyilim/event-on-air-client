@@ -67,9 +67,30 @@ We will need to trigger a call to get twitter posts.
 1. Go to https://console.cloud.google.com/cloudpubsub/topicList?project=PROJECT_ID. Make sure to change **PROJECT_ID** with your Firebase project. If you have setup your backend correctly you should see the 2 topics appearing in page.
 ![gcp](https://res.cloudinary.com/shangyilim/image/upload/v1555253016/gcp.png)
 
-2. Click on `pull-twitter-api` topic. Click publish message. Enter any description you like and click publish
+2. Click on `pull-twitter-api` topic. Click publish message. Enter any description you like and click publish.
+3. If it is succesful you should see a collection called `tweets` or `posts` in Firestore. Refresh the page a few times after triggering a call, or visit your Firebase deployed webpage to see
+![firestore](https://res.cloudinary.com/shangyilim/image/upload/v1555254180/posts.png)
+![web app](https://res.cloudinary.com/shangyilim/image/upload/v1555254242/preview.png)
+
+4. Repeat step 2 with `pull-instagram-api` you should see them appearing too. 
+
+# One last step.
+Now that we know the code is working well, we now need to setup cron job on Cloud Scheduler to fetch data every x minutes
+1. Go to Cloud Scheduler https://console.cloud.google.com/cloudscheduler
+2. Create a job with details like the picture below:
+!cron](https://res.cloudinary.com/shangyilim/image/upload/v1555254378/cron.png)
+3. The cron expression `*/2 * * * *` runs every 2 minutes. Change according to how frequent you want your cloud functions to pul data from twitter/instagram. 
+4. **REMEMBER to delete the job after the event or when you no longer want to run it! Otherwise the job keep running and may incur unecessary costs.**
 
 
+# Its not working?!?!
+Here's a few things that may help you fix issues you might face
+1. Make sure Firebase Blaze plan is turned on.
+2. Make sure the Twitter API key and its secret is saved in the `functions/config` of [this repo](https://github.com/shangyilim/event-on-air) 
+3. Make sure the fbConfig values are all present as shown in step 9.
+4. Make sure the `searchConfig` hastag really has public post with the hashtag you specified.
+5. Check the Cloud Functions Logs to see if there are any hints there.
+6. If all else fails feel free to create an issue
 
 
 
