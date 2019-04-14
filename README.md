@@ -62,6 +62,14 @@ npm run build
 firebase deploy
 ```
 
+# Run a test!
+We will need to trigger a call to get twitter posts.
+1. Go to https://console.cloud.google.com/cloudpubsub/topicList?project=PROJECT_ID. Make sure to change **PROJECT_ID** with your Firebase project. If you have setup your backend correctly you should see the 2 topics appearing in page.
+![gcp](https://res.cloudinary.com/shangyilim/image/upload/v1555253016/gcp.png)
+
+2. Click on `pull-twitter-api` topic. Click publish message. Enter any description you like and click publish
+
+
 
 
 
