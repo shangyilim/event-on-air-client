@@ -55,33 +55,20 @@ export class HomeComponent implements OnInit {
       this.clientConfig = dbClientConfig;
 
       this.db
-        .collection("posts", ref => ref.orderBy("timestamp", "desc").limit(10))
+        .collection("posts", ref => ref.orderBy("timestamp", "desc").limit(15))
         .get()
         .toPromise()
         .then(snapshot => {
           const data = snapshot.docs.map(d => d.data());
-          this.posts.push(...data);
+
+          // sort the data in ascending order 
+          // so that the oldest post will appear at the bottom
+          // masonry content is rendered my prepending instead of appending.
+          data.sort((d1, d2)=> d1.timestamp-d2.timestamp).forEach(d=> {
+            this.posts.push(d); 
+          })
         })
-        .then(() => {
-          const {
-            displayIntervalSec = 10,
-            displayIntervalSize = 5
-          } = this.clientConfig;
-          this.db
-            .collection("posts", ref => ref.orderBy("timestamp", "desc"))
-            .stateChanges(["added"])
-            .pipe(
-              flatMap(actions => actions.map(a => a.payload.doc.data())),
-              bufferCount(displayIntervalSize),
-              concatMap(val => of(val).pipe(delay(displayIntervalSec * 1000)))
-            )
-            .subscribe(posts => {
-              const newPosts = posts.filter(
-                (p: any) => !this.posts.find(existing => p.id === existing.id)
-              );
-              this.posts.push(...newPosts);
-            });
-        });
+        
     });
   }
 
