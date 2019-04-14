@@ -1,27 +1,46 @@
 # EventOnAirClient
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.5.
+Event-on-air is a social media wall that is primarily meant to encourage/show social media engagement during events, especially used to hype the crowd when waiting for events/talks to start. Although there are providers who already does this, they usually costly and you cannot control the update frequency if you're on the free plan.
 
-## Development server
+A demo is available [here](https://event-on-air-ebc25.firebaseapp.com/)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+# Features
+Automatically pull twitter/instagram feeds with your event hashtag
 
-## Code scaffolding
+- ✅ New feeds will always appear in front of the list
+- ✅ Moderate posts automatically/manually on monderator screen before showing
+- ✅ Ability to adjust number of lanes on the fly, depending on screen resolution.
+- ✅ Adjust header and subtitle in real time.
+- ✅ Ability to configure hashtag on the fly
+- ✅ Ability to configure how fast/slow new posts appear on screen
+- ✅ Ability to configure how many posts can be queued before showing.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+# Pre-requisites
+1. A Firebase project. Sign into Firebase using your Google account, and create a new project in the Firebase console [here](https://console.firebase.google.com/)
+2. **Have completed the setup for backend.** If you have not done so, please follow the  Serverless on Firebase Cloud Functions [here](https://github.com/shangyilim/event-on-air)
 
-## Build
+# Setting up the client
+1. Clone this project
+2. Install dependencies via npm or yarn
+3. Go to the `src/environments/environment.ts` and update your firebase configuration and Facebook App Id. Be sure to update the `environment.prod.ts` as well
+```
+export const environment = {
+  production: false,
+  firebase: {
+    apiKey: "api-key",
+    authDomain: "project-id.firebaseapp.com",
+    databaseURL: "https://project-id.firebaseio.com",
+    projectId: "project-id",
+    storageBucket: "project-id.appspot.com",
+    messagingSenderId: "sender-id",
+  },
+  facebookAppId: "facebookAppId"
+};
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+```
+4. Start the project locally via `npm run start`
+5. Navigate to http://localhost:4200/moderate 
+6. Login with your Google Account as specified by 
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
