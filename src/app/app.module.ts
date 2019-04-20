@@ -21,9 +21,12 @@ import {
 } from "@angular/material";
 import { FbLoginComponent } from './fb-login/fb-login.component';
 import { HttpClientModule } from '@angular/common/http';
+import { SpacewalkComponent } from './spacewalk/spacewalk.component';
+import { StartShowComponent } from './start-show/start-show.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, ModerateComponent, FbLoginComponent],
+  declarations: [AppComponent, HomeComponent, ModerateComponent, 
+    FbLoginComponent, SpacewalkComponent, StartShowComponent],
   imports: [
     BrowserModule,
     NgxMasonryModule,

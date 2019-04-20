@@ -16,6 +16,7 @@ dayjs.extend(relativeTime);
 
 import { ClientConfig } from "../common/client-config.interface";
 import { of } from "rxjs";
+import { Router } from '@angular/router';
 
 @Component({
   selector: "app-home",
@@ -38,7 +39,7 @@ export class HomeComponent implements OnInit {
   posts = [];
   clientConfig: any = {};
 
-  constructor(public db: AngularFirestore) {}
+  constructor(public db: AngularFirestore, private router: Router) {}
 
   ngOnInit() {
     this.db.firestore.doc("configs/client").onSnapshot(snapshot => {
@@ -50,6 +51,10 @@ export class HomeComponent implements OnInit {
         this.clientConfig.laness !== dbClientConfig.lanes
       ) {
         window.location.reload();
+      }
+
+      if(!this.clientConfig.startSpacewalk && dbClientConfig.startSpacewalk){
+        this.router.navigate(['/spacewalk']);
       }
 
       this.clientConfig = dbClientConfig;
@@ -68,6 +73,23 @@ export class HomeComponent implements OnInit {
             this.posts.push(d); 
           })
         })
+        .then(() => {
+          const {
+            displayIntervalSec = 10,
+            displayIntervalSize = 5
+          } = this.clientConfig;
+          this.db
+            .collection("posts", ref => ref.orderBy("timestamp", "desc"))
+            .stateChanges(["added"])
+            .pipe(
+              flatMap(actions => actions.map(a => a.payload.doc.data())),
+              bufferCount(displayIntervalSize),
+              concatMap(val => of(val).pipe(delay(displayIntervalSec * 1000)))
+            )
+            .subscribe(p => {
+              this.posts.push(...p);
+            });
+        });
         
     });
   }

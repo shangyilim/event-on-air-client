@@ -16,6 +16,8 @@ export class ModerateComponent implements OnInit {
   posts = [];
   searchConfig;
   user = {} as any;
+  clientConfig;
+  
   constructor(public afAuth: AngularFireAuth, public db: AngularFirestore) {}
 
   ngOnInit() {
@@ -52,6 +54,12 @@ export class ModerateComponent implements OnInit {
         this.searchConfig = snapshot.data();
       });
 
+    this.db.firestore
+    .doc("configs/client")
+    .onSnapshot(snapshot=>{
+      this.clientConfig = snapshot.data();
+    });
+
   }
 
   login() {
@@ -77,6 +85,11 @@ export class ModerateComponent implements OnInit {
     this.db.doc(`${collectionType}/${post.id}`).update({
       removed: true,
       approved: false,
+    });
+  }
+  toggleSpacewalk(){
+    this.db.doc(`configs/client`).update({
+      startSpacewalk: !this.clientConfig.startSpacewalk,
     });
   }
 }
