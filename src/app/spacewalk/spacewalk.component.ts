@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { AngularFirestore, DocumentSnapshot } from "@angular/fire/firestore";
-import { defineBase } from "@angular/core/src/render3";
+
+import { environment } from "../../environments/environment";
 
 declare var video: any;
 @Component({
@@ -13,8 +14,7 @@ export class SpacewalkComponent implements OnInit {
   constructor(private router: Router, private db: AngularFirestore) {}
 
   ngOnInit() {
-    video.src =
-      "https://res.cloudinary.com/shangyilim/video/upload/v1555750934/Silent_Partner_-_Space_Walk_Youtube_Premiere_Countdown_free_download_60_fps.mp4";
+    video.src = environment.spacewalkLink;
     video.muted = true;
     video.play().then(_ => {
       video.muted = false;

@@ -11,7 +11,7 @@
 
   <ngx-masonry
     [options]="masonryOptions"
-    [useImagesLoaded]="true"
+    [useImagesLoaded]="false"
     [updateLayout]="updateMasonryLayout"
     class="masonry"
     [style.background-color]="clientConfig.backgroundColor"
@@ -22,10 +22,21 @@
       class="masonry-item"
       [ngStyle]="{ width: 'calc(100vw/' + clientConfig.lanes + ' - 1.438em)' }"
     >
-      <img src="{{ post.photo }}" />
-      <div class="description">
-        {{ post.text }}
+      <div *ngIf="post.photo; else textOnly">
+        <img src="{{ post.photo }}" />
+        <div class="description">
+          {{ post.text }}
+        </div>
       </div>
+      <ng-template #textOnly >
+        <div class="text-container">
+          <div class="quote">“</div>
+          <div class="description">
+            {{post.text}}
+          </div>
+          <div class="quote">”</div>
+        </div>
+        </ng-template>
       <div class="user">
         <img  *ngIf="post.type ==='twitter'" src="{{ post.profilePic }}" class="avatar" />
         <div class="info">

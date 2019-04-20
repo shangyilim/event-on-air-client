@@ -16,7 +16,8 @@ dayjs.extend(relativeTime);
 
 import { ClientConfig } from "../common/client-config.interface";
 import { of } from "rxjs";
-import { Router } from '@angular/router';
+import { Router } from "@angular/router";
+import { environment } from "../../environments/environment";
 
 @Component({
   selector: "app-home",
@@ -38,60 +39,89 @@ export class HomeComponent implements OnInit {
 
   posts = [];
   clientConfig: any = {};
+  alreadyLoaded = false;
 
   constructor(public db: AngularFirestore, private router: Router) {}
 
   ngOnInit() {
+    setInterval(()=>{
+      this.updateMasonryLayout = true;}, 10000);
+    if (environment.spacewalkLink) {
+      const preloadLink = document.createElement("link");
+      preloadLink.as = "video";
+      preloadLink.rel = "preload";
+      preloadLink.href = environment.spacewalkLink;
+
+      document.head.appendChild(preloadLink);
+    }
+
     this.db.firestore.doc("configs/client").onSnapshot(snapshot => {
       const dbClientConfig = snapshot.data();
 
       // reload to properly rerender the masonry after lane size changes
-      if (
-        this.clientConfig.lanes &&
-        this.clientConfig.laness !== dbClientConfig.lanes
-      ) {
-        window.location.reload();
-      }
+      this.reloadOnLaneChanged(dbClientConfig);
 
-      if(!this.clientConfig.startSpacewalk && dbClientConfig.startSpacewalk){
-        this.router.navigate(['/spacewalk']);
-      }
+      this.preloadSpacewalk(dbClientConfig);
 
       this.clientConfig = dbClientConfig;
 
-      this.db
-        .collection("posts", ref => ref.orderBy("timestamp", "desc").limit(15))
-        .get()
-        .toPromise()
-        .then(snapshot => {
-          const data = snapshot.docs.map(d => d.data());
-
-          // sort the data in ascending order 
-          // so that the oldest post will appear at the bottom
-          // masonry content is rendered my prepending instead of appending.
-          data.sort((d1, d2)=> d1.timestamp-d2.timestamp).forEach(d=> {
-            this.posts.push(d); 
-          })
-        })
+      this.loadPostsFirst()
         .then(() => {
-          const {
-            displayIntervalSec = 10,
-            displayIntervalSize = 5
-          } = this.clientConfig;
-          this.db
-            .collection("posts", ref => ref.orderBy("timestamp", "desc"))
-            .stateChanges(["added"])
-            .pipe(
-              flatMap(actions => actions.map(a => a.payload.doc.data())),
-              bufferCount(displayIntervalSize),
-              concatMap(val => of(val).pipe(delay(displayIntervalSec * 1000)))
-            )
-            .subscribe(p => {
-              this.posts.push(...p);
-            });
+          this.loadNewPosts();
         });
-        
     });
+  }
+
+  private loadNewPosts() {
+    const { displayIntervalSec = 10, displayIntervalSize = 5 } = this.clientConfig;
+    this.db
+      .collection("posts", ref => ref.orderBy("timestamp", "desc"))
+      .stateChanges(["added"])
+      .pipe(flatMap(actions => actions.map(a => a.payload.doc.data())), bufferCount(displayIntervalSize), concatMap(val => of(val).pipe(delay(displayIntervalSec * 1000))))
+      .subscribe(p => {
+        const newPosts = p.filter((p:any) => !this.posts.find(existing => existing.id === p.id ));
+        
+        if(this.posts.length > 20) {
+          this.posts.splice(0, newPosts.length);
+        }
+
+        this.posts.push(...newPosts);
+        this.updateMasonryLayout = true;
+      });
+  }
+
+  private loadPostsFirst() {
+    return this.db
+      .collection("posts", ref => ref.orderBy("timestamp", "desc").limit(15))
+      .get()
+      .toPromise()
+      .then(snapshot => {
+        const data = snapshot.docs.map(d => d.data());
+        // sort the data in ascending order
+        // so that the oldest post will appear at the bottom
+        // masonry content is rendered my prepending instead of appending.
+        data
+          .sort((d1, d2) => d1.timestamp - d2.timestamp)
+          .forEach(d => {
+            this.posts.push(d);
+          });
+          
+      });
+  }
+
+  private preloadSpacewalk(dbClientConfig) {
+    if (!this.clientConfig.startSpacewalk && dbClientConfig.startSpacewalk) {
+      this.router.navigate(["/spacewalk"]);
+    }
+  }
+
+  private reloadOnLaneChanged(dbClientConfig) {
+    if (
+      this.clientConfig.lanes &&
+      this.clientConfig.laness !== dbClientConfig.lanes
+    ) {
+      window.location.reload();
+    }
   }
 
   humanDifferenceTime(post) {

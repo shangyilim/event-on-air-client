@@ -47,8 +47,30 @@
     background-color: #fff;
     word-wrap: break-word;
     font-size: 1vw;
-    max-height: 100px;
+    max-height: 140px;
     overflow: hidden;
+  }
+
+  .text-container {
+    
+    padding: 0.6rem;
+    .quote {
+      font-size: 5em;
+    }
+    .quote:first-child {
+      margin-top: 1.6rem;
+      line-height: 50%;
+      margin-bottom: -1.6rem;
+    }
+    .quote:last-child {
+      text-align: right;
+      line-height: 50%;
+      margin-top:1.6rem;
+      margin-bottom: -1.6rem;
+    }
+    .description {
+      font-size: 1.2vw;
+    }
   }
 }
 .user {
@@ -74,7 +96,9 @@
 }
 
 
+
 .postTypeImage{
   width: 15%!important;
   height: 15%!important;
 }
+
