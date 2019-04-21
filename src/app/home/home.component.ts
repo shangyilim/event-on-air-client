@@ -110,7 +110,8 @@ export class HomeComponent implements OnInit {
   }
 
   private preloadSpacewalk(dbClientConfig) {
-    if (!this.clientConfig.startSpacewalk && dbClientConfig.startSpacewalk) {
+    if (this.clientConfig.startSpacewalk != undefined && 
+      !this.clientConfig.startSpacewalk && dbClientConfig.startSpacewalk) {
       this.router.navigate(["/spacewalk"]);
     }
   }
