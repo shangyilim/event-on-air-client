@@ -8,5 +8,6 @@ export const environment = {
     storageBucket: "storageBucket",
     messagingSenderId: "messagingSenderId"
   },
-  facebookAppId: "facebookAppId"
+  facebookAppId: "facebookAppId",
+  spacewalkLink: "some countdown video link"
 };
