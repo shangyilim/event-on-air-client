@@ -75,7 +75,7 @@ export class HomeComponent implements OnInit {
   private loadNewPosts() {
     const { displayIntervalSec = 10, displayIntervalSize = 5 } = this.clientConfig;
     this.db
-      .collection("posts", ref => ref.orderBy("timestamp", "desc"))
+      .collection("posts", ref => ref.orderBy("timestamp", "desc").limit(15))
       .stateChanges(["added"])
       .pipe(flatMap(actions => actions.map(a => a.payload.doc.data())), bufferCount(displayIntervalSize), concatMap(val => of(val).pipe(delay(displayIntervalSec * 1000))))
       .subscribe(p => {
