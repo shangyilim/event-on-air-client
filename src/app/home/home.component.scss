@@ -1,6 +1,6 @@
 .banner {
   width: 100vw;
-  height: calc(100vh / 5);
+  height: calc(100vh / 6);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,11 +9,11 @@
 
 
   .title {
-    font-size: 3em;
+    font-size: 32px;
     font-weight: bold;
   }
   .subtitle {
-    font-size: 1.6em;
+    font-size: 26px;
   }
 }
 .bannerText {
@@ -32,14 +32,15 @@
   padding: 1em;
   max-width: 100vw;
   width: 100vw !important;
-  min-height: 100vh;
+  min-height: calc(100vh)!important;
+  overflow: hidden;
 }
 
 .masonry-item {
   background-color: #fff;
   margin-bottom: 10px;
 
-  img {
+  img,video {
     width: 100%;
   }
   .description {
@@ -102,3 +103,35 @@
   height: 15%!important;
 }
 
+
+.sponsor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 2s;
+  img {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.sponsor.show {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100vw);
+  height: calc(100vh);
+  background-color: white;
+  text-align: center;
+  opacity: 1;
+  transition: opacity 2s;
+  img {
+    height: 100%;
+    width: 100%;
+  }
+}

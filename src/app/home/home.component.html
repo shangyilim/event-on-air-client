@@ -23,7 +23,10 @@
       [ngStyle]="{ width: 'calc(100vw/' + clientConfig.lanes + ' - 1.438em)' }"
     >
       <div *ngIf="post.photo; else textOnly">
-        <img src="{{ post.photo }}" />
+        <img *ngIf="!isVideo(post.photo); else videoContent" src="{{ post.photo }}" />
+        <ng-template #videoContent>
+          <video src="{{post.photo}}" autoplay loop oncanplay="this.muted=true"></video>
+        </ng-template>
         <div class="description">
           {{ post.text }}
         </div>
@@ -48,4 +51,8 @@
       </div>
     </div>
   </ngx-masonry>
+</div>
+
+<div *ngIf="showSponsor" class="sponsor" [ngClass]="{'show': showSponsor}">
+  <img [src]="clientConfig.sponsorsSplashUrl" />
 </div>

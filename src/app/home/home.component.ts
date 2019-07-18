@@ -40,15 +40,17 @@ export class HomeComponent implements OnInit {
   posts = [];
   clientConfig: any = {};
   alreadyLoaded = false;
+  showSponsor = false;
 
   constructor(public db: AngularFirestore, private router: Router) {}
 
   ngOnInit() {
+
     setInterval(()=>{
       this.updateMasonryLayout = true;}, 10000);
     if (environment.spacewalkLink) {
       const preloadLink = document.createElement("link");
-      preloadLink.as = "video";
+      preloadLink.as = "fetch";
       preloadLink.rel = "preload";
       preloadLink.href = environment.spacewalkLink;
 
@@ -58,6 +60,11 @@ export class HomeComponent implements OnInit {
     this.db.firestore.doc("configs/client").onSnapshot(snapshot => {
       const dbClientConfig = snapshot.data();
 
+      if(dbClientConfig.enableSponsor){
+      setInterval(()=> {this.showSponsor =true;
+          setTimeout(()=> {this.showSponsor = false;}, dbClientConfig.sponsorHoldInterval);
+      }, dbClientConfig.sponsorTransitionInterval);
+    }
       // reload to properly rerender the masonry after lane size changes
       this.reloadOnLaneChanged(dbClientConfig);
 
@@ -119,7 +126,7 @@ export class HomeComponent implements OnInit {
   private reloadOnLaneChanged(dbClientConfig) {
     if (
       this.clientConfig.lanes &&
-      this.clientConfig.laness !== dbClientConfig.lanes
+      this.clientConfig.lanes !== dbClientConfig.lanes
     ) {
       window.location.reload();
     }
@@ -131,5 +138,9 @@ export class HomeComponent implements OnInit {
     }
 
     return dayjs(post.createdAt, "ddd MMM D HH:mm:ssZZ").fromNow();
+  }
+
+  isVideo(url: string){
+    return url.includes(".mp4");
   }
 }
