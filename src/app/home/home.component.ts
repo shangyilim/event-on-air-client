@@ -75,6 +75,7 @@ export class HomeComponent implements OnInit {
       this.loadPostsFirst()
         .then(() => {
           this.loadNewPosts();
+          this.listenForRemovedPosts();
         });
     });
   }
@@ -82,12 +83,13 @@ export class HomeComponent implements OnInit {
   private loadNewPosts() {
     const { displayIntervalSec = 10, displayIntervalSize = 5 } = this.clientConfig;
     this.db
-      .collection("posts", ref => ref.orderBy("timestamp", "desc").limit(15))
+      .collection("posts", ref => ref.where("approved", "==", true).orderBy("timestamp", "desc").limit(15))
       .stateChanges(["added"])
       .pipe(flatMap(actions => actions.map(a => a.payload.doc.data())), bufferCount(displayIntervalSize), concatMap(val => of(val).pipe(delay(displayIntervalSec * 1000))))
       .subscribe(p => {
+        console.log('found post');
         const newPosts = p.filter((p:any) => !this.posts.find(existing => existing.id === p.id ));
-        
+       
         if(this.posts.length > 20) {
           this.posts.splice(0, newPosts.length);
         }
@@ -99,7 +101,7 @@ export class HomeComponent implements OnInit {
 
   private loadPostsFirst() {
     return this.db
-      .collection("posts", ref => ref.orderBy("timestamp", "desc").limit(15))
+      .collection("posts", ref => ref.where("approved", "==", true).orderBy("timestamp", "desc").limit(15))
       .get()
       .toPromise()
       .then(snapshot => {
@@ -115,6 +117,23 @@ export class HomeComponent implements OnInit {
           
       });
   }
+
+  private listenForRemovedPosts(){
+    return this.db
+    .collection("posts", ref => ref.where("removed", "==", true))
+    .snapshotChanges()
+    .pipe(flatMap(actions => actions.map(a => a.payload.doc.data())))
+    .subscribe((p: any) => {
+      const removedPostIndex = this.posts.findIndex(existing => existing.id === p.id );
+
+      if(removedPostIndex >= 0) {
+         
+            this.posts.splice(removedPostIndex, 1);
+          
+    }
+   
+  });
+}
 
   private preloadSpacewalk(dbClientConfig) {
     if (this.clientConfig.startSpacewalk != undefined && 

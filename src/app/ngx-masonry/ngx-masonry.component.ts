@@ -113,6 +113,7 @@ export class NgxMasonryComponent implements OnInit, OnChanges, OnDestroy {
       isFirstItem = true;
     }
 
+    console.log("useImageLoaded", this.useImagesLoaded);
     if (this.useImagesLoaded) {
       imagesLoaded(element, (instance: any) => {
         this._element.nativeElement.appendChild(element);
