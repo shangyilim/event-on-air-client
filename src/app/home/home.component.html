@@ -3,10 +3,13 @@
     class="banner"
     [ngStyle]="{ background: 'url(' + clientConfig.backgroundImageUrl + ')' }"
   >
+  <img class="banner-left" [src]="clientConfig.leftImageUrl" />
+  
     <div class="bannerText">
       <div class="title">{{ clientConfig.title }}</div>
       <div class="subtitle">{{ clientConfig.subtitle }}</div>
     </div>
+    <img class="banner-right" [src]="clientConfig.rightImageUrl" />
   </div>
 
   <ngx-masonry

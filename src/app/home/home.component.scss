@@ -2,11 +2,11 @@
   width: 100vw;
   height: calc(100vh / 6);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  background-size: cover!important;
-
+  justify-content: space-between;
+  background-size: contain!important;
+  
 
   .title {
     font-size: 32px;
@@ -15,6 +15,14 @@
   .subtitle {
     font-size: 26px;
   }
+}
+.banner-left {
+  align-self:flex-start;
+  height: 100%;
+}
+.banner-right {
+  align-self: flex-end;
+  height: 100%;
 }
 .bannerText {
   height: 100%;
